@@ -1,0 +1,10 @@
+{
+  "id": "obsidian-media-templates",
+  "name": "Media Templates",
+  "version": "1.0.0",
+  "minAppVersion": "1.4.0",
+  "description": "Smart, media-aware templates for documenting TV shows, movies, and all their world-building — characters, locations, magic systems, factions, and more. Integrates with QuickAdd and Templater.",
+  "author": "Media Templates Contributors",
+  "authorUrl": "https://github.com/LesbianSpiderDrone/Obsidian-Media-Templates",
+  "isDesktopOnly": false
+}

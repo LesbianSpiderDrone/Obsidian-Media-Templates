@@ -1,0 +1,22 @@
+{
+  "name": "obsidian-media-templates",
+  "version": "1.0.0",
+  "description": "Smart media-aware templates for Obsidian — TV shows, movies, world-building",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+    "version": "node version-bump.mjs && git add manifest.json versions.json"
+  },
+  "keywords": ["obsidian", "plugin", "templates", "tv", "movies", "world-building"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "builtin-modules": "3.3.0",
+    "esbuild": "0.21.5",
+    "obsidian": "latest",
+    "tslib": "2.6.0",
+    "typescript": "5.5.3"
+  }
+}
