@@ -156,4 +156,5 @@ export default class MediaTemplatesPlugin extends Plugin {
   static toSlug(title: string): string {
     return toSlug(title);
   }
+
 }
