@@ -1,12 +1,19 @@
 name: Release
 
 on:
-  # Trigger on semver tags (manual release)
+  # Trigger on semver tags
   push:
     tags:
       - "[0-9]+.[0-9]+.[0-9]+"
-  # Also trigger from the development branch so a release is created
-  # even when tag pushes are restricted
+    # Auto-release when plugin source changes on the default branch
+    branches:
+      - main
+      - master
+    paths:
+      - "src/**"
+      - "manifest.json"
+      - "package.json"
+  # Manual trigger from GitHub Actions UI
   workflow_dispatch:
     inputs:
       version:
