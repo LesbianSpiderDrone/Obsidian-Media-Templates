@@ -38,7 +38,7 @@ export default class MediaTemplatesPlugin extends Plugin {
 
     // Expose globally so QuickAdd user scripts and Templater functions can reach it:
     //   const api = window.MediaTemplates?.api;
-    (window as Record<string, unknown>)["MediaTemplates"] = {
+    (window as unknown as Record<string, unknown>)["MediaTemplates"] = {
       plugin: this,
       api: this.api,
     };
@@ -85,7 +85,7 @@ export default class MediaTemplatesPlugin extends Plugin {
   }
 
   onunload() {
-    delete (window as Record<string, unknown>)["MediaTemplates"];
+    delete (window as unknown as Record<string, unknown>)["MediaTemplates"];
     console.log("[Media Templates] Plugin unloaded.");
   }
 
