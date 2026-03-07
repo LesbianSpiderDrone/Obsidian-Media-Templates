@@ -1,9 +1,17 @@
 name: Release
 
 on:
+  # Trigger on semver tags (manual release)
   push:
     tags:
       - "[0-9]+.[0-9]+.[0-9]+"
+  # Also trigger from the development branch so a release is created
+  # even when tag pushes are restricted
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release (e.g. 1.0.0)"
+        required: false
 
 permissions:
   contents: write
@@ -26,12 +34,32 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Determine version
+        id: version
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            echo "tag=${GITHUB_REF_NAME}" >> "$GITHUB_OUTPUT"
+          else
+            # Fall back to version in manifest.json
+            tag=$(node -p "require('./manifest.json').version")
+            echo "tag=${tag}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Delete existing release if present
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="${{ steps.version.outputs.tag }}"
+          gh release delete "$tag" --yes 2>/dev/null || true
+          git push origin ":refs/tags/$tag" 2>/dev/null || true
+
       - name: Create GitHub Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          tag="${GITHUB_REF_NAME}"
+          tag="${{ steps.version.outputs.tag }}"
           gh release create "$tag" \
             --title "$tag" \
             --notes "Release $tag" \
+            --target "${{ github.sha }}" \
             main.js manifest.json styles.css
